@@ -7,7 +7,12 @@ fname = ob.name
 
 #vertex group index list
 def vg_idx_list(vgn):
-    return([[v.index, v.groups[0].weight] for v in bpy.context.object.data.vertices if bpy.context.object.vertex_groups[vgn].index in [vg.group for vg in v.groups]])
+    vgi = bpy.context.object.vertex_groups[vgn].index
+    return([
+        [v.index, v.groups[[vg.group for vg in v.groups].index(vgi)].weight]
+        for v in bpy.context.object.data.vertices
+        if vgi in [vg.group for vg in v.groups]
+    ])
 
 #vertex group {name: [indexes]} dictionary
 def vg_idx_dict():
